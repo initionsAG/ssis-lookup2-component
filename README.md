@@ -15,7 +15,7 @@ The "Lookup 2" SSIS-Component enables you to do this in an easy way.
 
 ---
 
-###Example: 
+###Example 
 
 You want to know the currency conversion rate for US-Dollar to Euro on a specific date. The conversion rate changes over time, so it is valid between two dates (*valid-from* and *valid-to*). These dates are saved in a lookup-table.  
 Let's say the currency conversion rate for Dollar to Euro was 1:1.2 between 2015-02-01 and 2015-02-15 and you made a purchase in US-Dollar on 2015-02-10.  
@@ -60,7 +60,7 @@ To get the rate for this date from the lookup-table you need to search for the c
     * ![Lookup2 parameters](./resources/LU2_02_Parameters.PNG "Lookup2 parameters")
     * select output column to hold the returning value (i.e. conversion_rate)
     * ![Lookup2 output column](./resources/LU2_02_Output.png "Lookup2 output column")
-13. Note: Non matching values return **NULL** as output column
+13. Note: Non-matching values return *NULL* as output column
 14. done
 
 ---
