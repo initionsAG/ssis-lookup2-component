@@ -1,13 +1,16 @@
 ## initions SSIS Component "Lookup 2"
 "Lookup 2" is a custom component for [SQL Server Integration Services](https://en.wikipedia.org/wiki/SQL_Server_Integration_Services). It can be added to the Data Flow of an SSIS-package to look up values in data ranges. 
 
+The standard lookup transformation in SSIS lets you join data from a related table (lookup-table) based on **equal** values in common columns (for each value in your input is an exact matching value in the lookup-table).  
+In some cases the values in the lookup-table are divided into consecutive ranges and only the beginning and ending values of each range is stored. To join this data you can not look for equal values but for the appropriate *data range*.    
+The "Lookup 2" SSIS-Component enables you to do this in an easy way. 
+
 For example: You want to know the currency conversion rate for Euro to US-Dollar on a specific date. The conversion rate changes over time, so it is valid between two dates (*valid-from* and *valid-to*). These dates are saved in a lookup-table.  
 Let's say the currency conversion rate for Euro to Dollar was 1:1.2 between 2015-02-01 and 2015-02-15 and you made a purchase in US-Dollar on 2015-02-10.  
-To get the rate for this date from the lookup-table you need to search for the currency (US-Dollar) and where the purchase-date is between *valid-from* and *valid-to*.  
-The "Lookup 2" SSIS-Component enables you to do this in an easy way.
+To get the rate for this date from the lookup-table you need to search for the currency (US-Dollar) and where the purchase-date is between *valid-from* and *valid-to*.
 
 ### Requirements for development
-* Microsoft VisualStudio 2012 or greater
+* Microsoft VisualStudio 2010 or greater
 
 ### Requirements for usage
 * Microsoft SSIS 2008R2 / 2012 / 2014
@@ -16,7 +19,7 @@ The "Lookup 2" SSIS-Component enables you to do this in an easy way.
 1. open SSIS Package
 2. create DFT and open it 
 3. ![SSIS Control Flow](/resources/Control_Flow_LU2.PNG "SSIS Control Flow with Data Flow")
-4. insert a src-component that gets your data you want do look up (i.e. purchase data)
+4. insert a src-component that gets your data you want to look up (i.e. purchase data)
 5. create new column in your Data Flow to hold lookup2-return-value (i.e. FK_Currency_ID)
 6. ![New Column](/resources/New_Column.PNG "Create new column for lookup2-return-value")
 7. find Lookup2 component in SSIS Toolbox, add it to Data Flow and connect its input to output of previous component
@@ -40,7 +43,7 @@ The "Lookup 2" SSIS-Component enables you to do this in an easy way.
 If you find a bug, please contact us on GitHub
 
 ### Changelog
-2016-02-xx
+2016-02-27
 First Release
 
 ### License
