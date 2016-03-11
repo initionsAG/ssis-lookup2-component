@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!-- Generate Installer Title Based on Build Configuration -->
+  <?if $(var.Lookup2.Configuration) = Sql2012 Or $(var.Lookup2.Configuration) = 2012Debug?>
+  <?define ProductName = Lookup2 !(bind.FileVersion.fil_Lookup2_dll) for Integration Services 2012 ?>
+  <?define SsisVersion   = 2012 ?>
+  <?define SsisVersionNo = 110 ?>
+  <?define UpgradeCode   = F007343F-4644-48C5-B6C2-0B06C4EC9302 ?>
+  <?elseif $(var.Lookup2.Configuration) = Sql2014  Or $(var.Lookup2.Configuration) = 2014Debug?>
+  <?define ProductName = Lookup2 !(bind.FileVersion.fil_Lookup2_dll) for Integration Services 2014 ?>
+  <?define SsisVersion   = 2014 ?>
+  <?define SsisVersionNo = 120 ?>
+  <?define UpgradeCode   = 4900079B-5103-44B3-BA1D-42A5F7B01C82 ?>
+  <?elseif $(var.Lookup2.Configuration) = Sql2016  Or $(var.Lookup2.Configuration) = 2016Debug?>
+  <?define ProductName = Lookup2 !(bind.FileVersion.fil_Lookup2_dll) for Integration Services 2016 ?>
+  <?define SsisVersion   = 2016 ?>
+  <?define SsisVersionNo = 130 ?>
+  <?define UpgradeCode   = a797f8ad-84eb-4af9-94ee-c6605a437fd4 ?>
+  <?else ?>
+  <?define ProductName = Lookup2 !(bind.FileVersion.fil_Lookup2_dll) for Integration Services 2008 ?>
+  <?define SsisVersion   = 2008 ?>
+  <?define SsisVersionNo = 100 ?>
+  <?define UpgradeCode   = 717095AE-7B70-4253-96C5-8168F287A3DE ?>
+  <?endif ?>
+  <Product Id="*"
+           Name="$(var.ProductName)"
+           Language="1033"
+           Version="!(bind.FileVersion.fil_Lookup2_dll)"
+           Manufacturer="innovative IT solutions AG"
+           UpgradeCode="$(var.UpgradeCode)">
+
+    <Package InstallerVersion="200"
+         Compressed="yes"
+         InstallScope="perMachine"
+         Description ="Lookup2 Installer package"
+         Manufacturer="innovative IT solutions AG"
+             />
+
+    <Feature Id="ProductFeature" Title="SSIS Lookup2 Component" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="GacComponents" />
+    </Feature>
+
+    <!-- Set the default install path -->
+    <Property Id="WIXUI_INSTALLDIR" Value="PIPELINECOMPONENTS" />
+    <!-- Ui Speficication -->
+    <WixVariable Id="WixUIBannerBmp" Value="Resources\InstallerBanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Resources\InstallerDialog.bmp"/>
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+      <!-- skip licence dialog -->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+    </UI>
+
+    <!-- Set the Icon from the LOG Component as the installer icon -->
+    <Icon Id="log.ico" SourceFile="$(var.Lookup2.ProjectDir)\Resources\Lookup.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="log.ico" />
+
+    <MajorUpgrade
+          AllowDowngrades="no"
+          AllowSameVersionUpgrades="no"
+          DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+          Schedule="afterInstallValidate"
+    />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+  </Product>
+
+  <Fragment>
+    <!-- Getting SSIS Pipeline Components Path from Registry-->
+    <Property Id ="INSTALLFOLDER">
+      <RegistrySearch Id    = "RegDtsPath"
+                      Root  = "HKLM"
+                      Key   = "Software\Microsoft\Microsoft SQL Server\$(var.SsisVersionNo)\SSIS\Setup\DTSPath"
+                      Type  = "raw"
+                      Win64 ="no"
+                      />
+    </Property>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="INSTALLFOLDER" Name="Lookup2_Installer">
+        <Directory Id="PIPELINECOMPONENTS" Name ="PipelineComponents" />
+      </Directory>
+
+
+      <!-- GAC Directory only a Dummy for Deployment to GAC-->
+      <Directory Id="GAC" Name="GAC" />
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="PIPELINECOMPONENTS">
+      <Component Id="cmp_Lookup2_dll" Guid="c7cf2221-2efa-40be-9be3-d25ce55d765f">
+        <File Id="fil_Lookup2_dll" KeyPath="yes" Source="$(var.Lookup2.TargetPath)"></File>
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="GacComponents" Directory="GAC">
+      <Component Id="cmp_gac_Lookup2_dll" Guid="3fab7238-55b3-45a2-983e-ca134ffc5f79">
+        <!-- Specifing the Assembly Property with .net assures installation to gac-->
+        <File Id="fil_gac_Lookup2_dll" KeyPath="yes" Source="$(var.Lookup2.TargetPath)" Assembly=".net"></File>
+      </Component>
+      <Component Id="cmp_gac_Lookup2FW_dll" Guid="36b3b137-7b1c-4074-ac30-620974598020">
+        <!-- Specifing the Assembly Property with .net assures installation to gac-->
+        <File Id="fil_gac_Lookup2FW_dll" KeyPath="yes" Source="$(var.Lookup2FW.TargetPath)" Assembly=".net"></File>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
