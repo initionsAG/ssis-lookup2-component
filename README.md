@@ -69,7 +69,7 @@ To get the rate for this date from the lookup-table you need to search for the c
 If you find a bug, please contact us on GitHub
 
 ### Changelog
-2016-02-27
+2016-03-11
 First Release
 
 ### License
