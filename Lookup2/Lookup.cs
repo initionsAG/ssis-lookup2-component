@@ -33,8 +33,14 @@ namespace Lookup2
     CurrentVersion = 4,
     IconResource = "Lookup2.Resources.Lookup.ico",
     UITypeName = "Lookup2.LookupUI, Lookup4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=227894ff64791a58")]
+#elif   (SQL2016)
+    [DtsPipelineComponent(DisplayName = "Lookup2",
+    ComponentType = ComponentType.Transform,
+    CurrentVersion = 5,
+    IconResource = "Lookup2.Resources.Lookup.ico",
+    UITypeName = "Lookup2.LookupUI, initions.Henry.SSIS.Lookup22016, Version=1.0.0.0, Culture=neutral, PublicKeyToken=227894ff64791a58")]
 #else
-        [DtsPipelineComponent(DisplayName = "Lookup2",
+    [DtsPipelineComponent(DisplayName = "Lookup2",
     ComponentType = ComponentType.Transform,
     CurrentVersion = 1,
     IconResource = "Lookup2.Resources.Lookup.ico",
