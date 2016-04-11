@@ -2,7 +2,7 @@
 "Lookup 2" is a custom component for [SQL Server Integration Services](https://en.wikipedia.org/wiki/SQL_Server_Integration_Services). It can be added to the Data Flow of an SSIS-package to look up values in data ranges. 
 
 The standard lookup transformation in SSIS lets you join data from a related table (lookup-table) based on **equal** values in common columns. For each value in your input is an exact matching value in the lookup-table.  
-In some cases the values in the lookup-table are divided into consecutive ranges and only the beginning and ending values of each range is stored. To join this data you can not look for equal values but for the appropriate *data range*.    
+In some cases the values in the lookup-table are divided into consecutive ranges and only the beginning and ending values of each range are stored. To join this data you can not look for equal values but for the appropriate *data range*.    
 The "Lookup 2" SSIS-Component enables you to do this in an easy way. 
 
 ---
@@ -57,7 +57,7 @@ To get the rate for this date from the lookup-table you need to search for the c
     * from your input (DFT Value) select column whose value is to look up in a data range (i.e. purchase_date) 
     * from your lookup-table select lower and upper range (i.e. VALID_FROM, VALID_TO)
     * from your input select an optional matchcolumn (i.e. country) and matching column in lookup-table (i.e. FK_Country_ID)
-    * ![Lookup2 parameters](./resources/LU2_02_Parameters.PNG "Lookup2 parameters")
+    * ![Lookup2 parameters](./resources/LU2_02_Parameters.png "Lookup2 parameters")
     * select output column to hold the returning value (i.e. conversion_rate)
     * ![Lookup2 output column](./resources/LU2_02_Output.png "Lookup2 output column")
 13. Note: Non-matching values return *NULL* as output column
@@ -69,7 +69,7 @@ To get the rate for this date from the lookup-table you need to search for the c
 If you find a bug, please contact us on GitHub
 
 ### Changelog
-2016-02-27
+2016-03-11
 First Release
 
 ### License
